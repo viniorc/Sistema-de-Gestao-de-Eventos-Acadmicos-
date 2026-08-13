@@ -1,0 +1,31 @@
+{
+  "name": "conexao-promic",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.28.1",
+  "engines": { "node": ">=24.0.0", "pnpm": ">=10.0.0" },
+  "scripts": {
+    "dev": "pnpm --parallel --stream --filter @conexao/api --filter @conexao/web dev",
+    "build": "pnpm --filter @conexao/api build && pnpm --filter @conexao/web build",
+    "lint": "pnpm --filter @conexao/api lint && pnpm --filter @conexao/web lint",
+    "typecheck": "pnpm --filter @conexao/api typecheck && pnpm --filter @conexao/web typecheck",
+    "test": "pnpm --filter @conexao/api test && pnpm --filter @conexao/web test",
+    "test:e2e": "pnpm --filter @conexao/web test:e2e",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "db:migrate": "pnpm --filter @conexao/api prisma:migrate",
+    "db:seed": "pnpm --filter @conexao/api prisma:seed",
+    "db:studio": "pnpm --filter @conexao/api prisma:studio",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,mjs,cjs,json,md,yml,yaml}": ["prettier --write"]
+  }
+}

@@ -1,0 +1,2 @@
+import { render, screen } from '@testing-library/react'; import userEvent from '@testing-library/user-event'; import { describe, expect, it } from 'vitest'; import { EventSelector } from './event-selector';
+describe('EventSelector', () => { it('opens available editions', async () => { const user = userEvent.setup(); render(<EventSelector />); await user.click(screen.getByRole('button', { name: /conexão 2026/i })); expect(screen.getByText('CONEXÃO 2025')).toBeInTheDocument(); }); });
