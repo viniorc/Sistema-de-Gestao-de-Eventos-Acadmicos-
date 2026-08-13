@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-@theme { --color-primary: #002045; --color-action: #0061a5; --color-background: #f7fafc; --color-surface: #ffffff; --color-border: #e2e8f0; --color-success: #18794e; --color-warning: #b45309; --color-danger: #b42318; --color-academic: #6941c6; --font-sans: 'Inter', Arial, sans-serif; }
+@theme { --color-primary: #002045; --color-action: #0061a5; --color-action-hover: #004f89; --color-background: #f7fafc; --color-surface: #ffffff; --color-border: #e2e8f0; --color-success: #18794e; --color-warning: #b45309; --color-danger: #b42318; --color-academic: #6941c6; --font-sans: 'Inter', Arial, sans-serif; }
 * { box-sizing: border-box; }
 body { background: var(--color-background); color: #182230; }
 button, input, select, textarea { font: inherit; }

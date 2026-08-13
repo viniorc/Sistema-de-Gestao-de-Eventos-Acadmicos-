@@ -15,7 +15,7 @@ Node.js 24 LTS, pnpm 10+, Docker Desktop e Docker Compose. Copie `.env.example` 
 ```bash
 cp .env.example .env
 docker compose up -d postgres
-pnpm install
+pnpm install --frozen-lockfile
 pnpm db:migrate
 pnpm db:seed
 pnpm dev
@@ -35,12 +35,17 @@ docker compose up --build
 
 O banco tem volume persistente e healthcheck; a API aplica migrations no boot. Para semear dentro do container: `docker compose exec api pnpm --filter @conexao/api prisma:seed`.
 
+## E2E
+
+Com PostgreSQL, API e web em execução, instale o navegador uma vez com `pnpm --filter @conexao/web exec playwright install chromium` e execute `pnpm test:e2e`. A suíte verifica o redirecionamento sem sessão e o login real do usuário DEV; defina `E2E_DEV_USER_PASSWORD` se a senha local for diferente de `local-dev-password`.
+
 ## Comandos
 
 ```bash
 pnpm lint
 pnpm typecheck
 pnpm test
+pnpm --filter @conexao/web exec playwright install chromium
 pnpm test:e2e
 pnpm build
 pnpm db:migrate
@@ -58,4 +63,4 @@ docs/          # arquitetura, desenvolvimento, convenções e ADRs
 infra/docker/  # imagens de API e web
 ```
 
-As decisões arquiteturais estão em [docs/architecture.md](docs/architecture.md) e nos ADRs. A API não retorna stack traces e mantém JWTs em cookies HttpOnly, com `Secure` em produção. O seletor de evento persiste apenas o ID em cookie para evitar um store global desnecessário.
+As decisões arquiteturais estão em [docs/architecture.md](docs/architecture.md) e nos ADRs. A API valida `NODE_ENV`, `DATABASE_URL`, `API_PORT`, `CORS_ORIGIN`, JWT secrets e TTLs ao iniciar. Ela não retorna stack traces e mantém JWTs em cookies HttpOnly, com `Secure` em produção. O seletor consulta eventos reais na API, mantém a seleção em contexto e persiste apenas o UUID no cookie `conexao-event-id`.

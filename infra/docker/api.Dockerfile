@@ -1,9 +1,11 @@
 FROM node:24-alpine AS base
 RUN corepack enable
 WORKDIR /app
-COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/api/package.json apps/api/package.json
-RUN pnpm install --frozen-lockfile=false
+COPY packages/api-client/package.json packages/api-client/package.json
+COPY packages/design-tokens/package.json packages/design-tokens/package.json
+RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm --filter @conexao/api build
 EXPOSE 3001

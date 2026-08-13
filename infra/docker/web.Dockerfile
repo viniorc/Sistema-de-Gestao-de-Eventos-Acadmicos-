@@ -3,9 +3,11 @@ RUN corepack enable
 WORKDIR /app
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
-COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/web/package.json apps/web/package.json
-RUN pnpm install --frozen-lockfile=false
+COPY packages/api-client/package.json packages/api-client/package.json
+COPY packages/design-tokens/package.json packages/design-tokens/package.json
+RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm --filter @conexao/web build
 EXPOSE 3000

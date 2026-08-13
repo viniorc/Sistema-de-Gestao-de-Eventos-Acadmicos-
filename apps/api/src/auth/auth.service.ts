@@ -29,6 +29,7 @@ export class AuthService {
       const payload = await this.jwt.verifyAsync<TokenPayload>(token, { secret: process.env.JWT_REFRESH_SECRET });
       const user = await this.users.findById(payload.sub);
       if (!user || !user.refreshTokenHash || !(await argon2.verify(user.refreshTokenHash, token))) throw new UnauthorizedException();
+      if (user.status !== UserStatus.ACTIVE) { await this.users.setRefreshHash(user.id, null); throw new UnauthorizedException(); }
       return this.createSession(user);
     } catch { throw new UnauthorizedException(); }
   }
